@@ -77,7 +77,7 @@ namespace LabsComputingSystems.Service
         private string WorkerFunction(string json)
         {
             //Реализация "Работника"
-            ToWorkerData toWorkerData = new ToWorkerData(json);
+            //ToWorkerData toWorkerData = new ToWorkerData(json);
             //Тут обработка
             FromWorkerData fromWorkerData = new FromWorkerData();
             return fromWorkerData.GetJson();

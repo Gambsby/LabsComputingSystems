@@ -24,7 +24,7 @@ namespace LabsComputingSystems.Service
             // Инициализация
             client = new TcpClient(this.workerAddress, this.workerPort);
         }
-        private string Start(string message)
+        public string Start(string message)
         {
             Byte[] data = Encoding.UTF8.GetBytes(message);
             stream = client.GetStream();
