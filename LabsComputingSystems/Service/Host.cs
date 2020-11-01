@@ -17,13 +17,14 @@ namespace LabsComputingSystems.Service
 
         public Host(string workerAddress, int workerPort)
         {
-            //Адрес куда отправлять
+            // Адрес куда отправлять
             this.workerAddress = workerAddress;
-            //Порт куда отправлять
+            // Порт куда отправлять
             this.workerPort = workerPort;
             // Инициализация
             client = new TcpClient(this.workerAddress, this.workerPort);
         }
+        
         public string Start(string message)
         {
             Byte[] data = Encoding.UTF8.GetBytes(message);

@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace LabsComputingSystems.Service
 {
@@ -19,11 +20,11 @@ namespace LabsComputingSystems.Service
 
         public Worker(int port)
         {
-            //Адрес сервера
+            // Адрес сервера
             this.localAddress = GetLocalIPAddress();
-            //Порт приема
+            // Порт приема
             this.port = port;
-            //Создаем листенер для сервера
+            // Создаем листенер для сервера
             this.server = new TcpListener(localAddress, this.port);
         }
 
@@ -76,11 +77,68 @@ namespace LabsComputingSystems.Service
 
         private string WorkerFunction(string json)
         {
-            //Реализация "Работника"
-            //ToWorkerData toWorkerData = new ToWorkerData(json);
-            //Тут обработка
-            FromWorkerData fromWorkerData = new FromWorkerData();
+            // Реализация "Работника"
+            Stopwatch sWatch = new Stopwatch();
+            ToWorkerData toWorkerData = new ToWorkerData(json);
+            double result = 0, time = 0;
+            
+            // Засекаем время
+            sWatch.Start();
+            
+            // Счетаем интеграл методом трапеций
+            result = Integral(toWorkerData);
+
+            // Останавливаем время
+            sWatch.Stop();
+            TimeSpan ts = sWatch.Elapsed;
+            time = ts.TotalSeconds;
+
+            FromWorkerData fromWorkerData = new FromWorkerData(result, time);
             return fromWorkerData.GetJson();
+        }
+
+        public FromWorkerData WorkerFunction(ToWorkerData toWorkerData)
+        {
+            // Реализация "Работника"
+            Stopwatch sWatch = new Stopwatch();
+            double result = 0, time = 0;
+
+            // Засекаем время
+            sWatch.Start();
+
+            // Счетаем интеграл методом трапеций
+            result = Integral(toWorkerData);
+
+            // Останавливаем время
+            sWatch.Stop();
+            TimeSpan ts = sWatch.Elapsed;
+            time = ts.TotalSeconds;
+
+            //string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+            //                                    ts.Hours, ts.Minutes, ts.Seconds,
+            //                                    ts.Milliseconds / 10);
+
+            return new FromWorkerData(result, time);
+        }
+
+        private double Integral(ToWorkerData Data)
+        {
+            double result = 0;
+            for (int i = 0; i < Data.Steps; i++)
+            {
+                if (i == 0 || i == Data.Steps - 1)
+                    result += Fuction(Data.Fuction, i * Data.Long_step + Data.Start)/2;
+                else
+                    result += Fuction(Data.Fuction, i * Data.Long_step + Data.Start);
+            }
+            return result;
+        }
+
+        private double Fuction(string fuction, double x)
+        {
+            // TODO: fuction(x) (нужно выполнить string функции)
+
+            return Math.Pow(Math.Log(x), 4); //пример для тестов
         }
     }
 }

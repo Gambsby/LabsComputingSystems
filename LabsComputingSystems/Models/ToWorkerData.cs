@@ -29,6 +29,15 @@ namespace LabsComputingSystems.Models
             this.Long_step = long_step;
         }
 
+        public ToWorkerData(string fuction, double start, double end, int steps)
+        {
+            this.Fuction = fuction;
+            this.Start = start;
+            this.End = end;
+            this.Steps = steps;
+            this.Long_step = (end - start) / steps;
+        }
+
         public ToWorkerData(string json)
         {
             ToWorkerData tmp = JsonSerializer.Deserialize<ToWorkerData>(json);
