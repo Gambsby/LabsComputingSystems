@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using LabsComputingSystems.Models;
 using LabsComputingSystems.Service;
+using System.Diagnostics;
 
 namespace LabsComputingSystems
 {
@@ -17,8 +18,13 @@ namespace LabsComputingSystems
         public Form1()
         {
             InitializeComponent();
+            label_time_all.Text = string.Empty;
+            label_time.Text = string.Empty;
+            label_res.Text = string.Empty;
+            cB_mod.SelectedIndex = 0;
         }
 
+        //кнопка Славы ( TODO: удалить потом )
         private void test_btn_Click(object sender, EventArgs e)
         {
             Host host = new Host("192.168.1.238", 8889);
@@ -55,6 +61,11 @@ namespace LabsComputingSystems
                 double start_i = start, end_i = start;
                 double result = 0;
                 List<double> times = new List<double>();
+
+                // Засекаем время
+                Stopwatch sWatch = new Stopwatch();
+                sWatch.Start();
+
                 for (int i = countWorkers; i > 0; i--)
                 {
                     end_i += step * steps_i;
@@ -62,19 +73,25 @@ namespace LabsComputingSystems
                         steps_i = steps;
                     else
                         steps_i = steps/countWorkers;
-                    // TODO: отправка данных на воркера (start_i, end_i, steps_i, step, function)
+                    // TODO: отправка данных на воркера i (start_i, end_i, steps_i, step, function)
 
                     
                     start_i = end_i;
                 }
                 for (int i = countWorkers; i > 0; i--)
                 {
-                    // TODO: получение данных от воркера (result_i и time_i)
+                    // TODO: получение данных от воркера i (result_i и time_i)
                     
                     
                     //result += result_i;
                     //times.Add(time_i);
                 }
+
+                // Останавливаем время
+                sWatch.Stop();
+                TimeSpan ts = sWatch.Elapsed;
+                
+                label_time_all.Text = ts.TotalSeconds.ToString();
                 label_res.Text = result.ToString();
                 label_time.Text = times.Min().ToString();
             }
@@ -89,6 +106,54 @@ namespace LabsComputingSystems
 
             textBox_logs_worker.Text += "Результат: " + result.ToString();
             textBox_logs_worker.Text += "Время выполнения: " + time.ToString();
+        }
+
+        private void check_compleet()
+        {
+            if ((txtBox_function.Text.Length > 0) && (txtBox_start.Text.Length > 0) && (txtBox_end.Text.Length > 0) && (txtBox_steps.Text.Length > 0))
+                btn_start_mainHost.Enabled = true;
+            else
+                btn_start_mainHost.Enabled = false;
+        }
+
+        private void txtBox_function_TextChanged(object sender, EventArgs e)
+        {
+            check_compleet();
+        }
+
+        private void txtBox_start_TextChanged(object sender, EventArgs e)
+        {
+            check_compleet();
+        }
+
+        private void txtBox_end_TextChanged(object sender, EventArgs e)
+        {
+            check_compleet();
+        }
+
+        private void txtBox_steps_TextChanged(object sender, EventArgs e)
+        {
+            check_compleet();
+        }
+
+        private void cB_mod_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cB_mod.SelectedIndex == 0)
+            {
+                label_time_all_text.Visible = true;
+                btn_add_workers.Visible = true;
+            }
+            else
+            {
+                btn_add_workers.Visible = false;
+                label_time_all_text.Visible = false;
+            }
+        }
+
+        private void btn_add_workers_Click(object sender, EventArgs e)
+        {
+            Form_adress dialog_redact_addres = new Form_adress();
+            // TODO: допилить диалоговое окно
         }
     }
 }

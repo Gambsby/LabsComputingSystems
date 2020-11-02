@@ -33,6 +33,7 @@
             this.tabMainHost = new System.Windows.Forms.TabPage();
             this.btn_start_mainHost = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btn_add_workers = new System.Windows.Forms.Button();
             this.groupBox_Function = new System.Windows.Forms.GroupBox();
             this.txtBox_steps = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -45,6 +46,8 @@
             this.cB_mod = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label_time_all = new System.Windows.Forms.Label();
+            this.label_time_all_text = new System.Windows.Forms.Label();
             this.label_res = new System.Windows.Forms.Label();
             this.label_time = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -102,7 +105,8 @@
             // 
             // btn_start_mainHost
             // 
-            this.btn_start_mainHost.Location = new System.Drawing.Point(302, 262);
+            this.btn_start_mainHost.Enabled = false;
+            this.btn_start_mainHost.Location = new System.Drawing.Point(484, 262);
             this.btn_start_mainHost.Name = "btn_start_mainHost";
             this.btn_start_mainHost.Size = new System.Drawing.Size(106, 27);
             this.btn_start_mainHost.TabIndex = 2;
@@ -112,16 +116,27 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.btn_add_workers);
             this.groupBox3.Controls.Add(this.groupBox_Function);
             this.groupBox3.Controls.Add(this.cB_mod);
             this.groupBox3.Controls.Add(this.label4);
             this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.groupBox3.Location = new System.Drawing.Point(10, 6);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(346, 250);
+            this.groupBox3.Size = new System.Drawing.Size(346, 282);
             this.groupBox3.TabIndex = 9;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Начальные данные";
+            // 
+            // btn_add_workers
+            // 
+            this.btn_add_workers.Location = new System.Drawing.Point(12, 238);
+            this.btn_add_workers.Name = "btn_add_workers";
+            this.btn_add_workers.Size = new System.Drawing.Size(320, 27);
+            this.btn_add_workers.TabIndex = 10;
+            this.btn_add_workers.Text = "Редактировать список работников";
+            this.btn_add_workers.UseVisualStyleBackColor = true;
+            this.btn_add_workers.Click += new System.EventHandler(this.btn_add_workers_Click);
             // 
             // groupBox_Function
             // 
@@ -144,6 +159,7 @@
             this.txtBox_steps.Name = "txtBox_steps";
             this.txtBox_steps.Size = new System.Drawing.Size(110, 26);
             this.txtBox_steps.TabIndex = 6;
+            this.txtBox_steps.TextChanged += new System.EventHandler(this.txtBox_steps_TextChanged);
             // 
             // label3
             // 
@@ -174,6 +190,7 @@
             this.txtBox_end.Name = "txtBox_end";
             this.txtBox_end.Size = new System.Drawing.Size(87, 26);
             this.txtBox_end.TabIndex = 4;
+            this.txtBox_end.TextChanged += new System.EventHandler(this.txtBox_end_TextChanged);
             // 
             // label2
             // 
@@ -191,6 +208,7 @@
             this.txtBox_start.Name = "txtBox_start";
             this.txtBox_start.Size = new System.Drawing.Size(87, 26);
             this.txtBox_start.TabIndex = 2;
+            this.txtBox_start.TextChanged += new System.EventHandler(this.txtBox_start_TextChanged);
             // 
             // label1
             // 
@@ -209,6 +227,7 @@
             this.txtBox_function.Size = new System.Drawing.Size(314, 26);
             this.txtBox_function.TabIndex = 0;
             this.txtBox_function.Text = " ";
+            this.txtBox_function.TextChanged += new System.EventHandler(this.txtBox_function_TextChanged);
             // 
             // cB_mod
             // 
@@ -221,6 +240,7 @@
             this.cB_mod.Name = "cB_mod";
             this.cB_mod.Size = new System.Drawing.Size(199, 24);
             this.cB_mod.TabIndex = 1;
+            this.cB_mod.SelectedIndexChanged += new System.EventHandler(this.cB_mod_SelectedIndexChanged);
             // 
             // label4
             // 
@@ -234,6 +254,8 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.label_time_all);
+            this.groupBox2.Controls.Add(this.label_time_all_text);
             this.groupBox2.Controls.Add(this.label_res);
             this.groupBox2.Controls.Add(this.label_time);
             this.groupBox2.Controls.Add(this.label6);
@@ -245,6 +267,23 @@
             this.groupBox2.TabIndex = 8;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Результаты";
+            // 
+            // label_time_all
+            // 
+            this.label_time_all.AutoSize = true;
+            this.label_time_all.Location = new System.Drawing.Point(205, 93);
+            this.label_time_all.Name = "label_time_all";
+            this.label_time_all.Size = new System.Drawing.Size(0, 16);
+            this.label_time_all.TabIndex = 12;
+            // 
+            // label_time_all_text
+            // 
+            this.label_time_all_text.AutoSize = true;
+            this.label_time_all_text.Location = new System.Drawing.Point(16, 93);
+            this.label_time_all_text.Name = "label_time_all_text";
+            this.label_time_all_text.Size = new System.Drawing.Size(177, 16);
+            this.label_time_all_text.TabIndex = 11;
+            this.label_time_all_text.Text = "Время с распределением:";
             // 
             // label_res
             // 
@@ -387,6 +426,9 @@
         private System.Windows.Forms.Button btn_start_worker;
         private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.TextBox textBox_logs_worker;
+        private System.Windows.Forms.Label label_time_all;
+        private System.Windows.Forms.Label label_time_all_text;
+        private System.Windows.Forms.Button btn_add_workers;
     }
 }
 
