@@ -57,13 +57,7 @@ namespace LabsComputingSystems
             else if(cB_mod.SelectedIndex == 0)
             {
                 // работа главного узла в режиме "раскидал задачу другим"
-                List<Host> hostes = new List<Host>();
-                for (int i = 0; i<configWorkers.Count; i++)
-                {
-                    // TODO: добавить try catch и вывод сообщения если не удалось выполнить соединение
-                    hostes.Add(new Host(configWorkers[i].Ip, configWorkers[i].Port));
-                }
-                // TODO: создать список воркеров
+                List<Task> tasks = new List<Task>();
 
                 int countWorkers = 3;
                 int steps_i = 0;
@@ -77,21 +71,21 @@ namespace LabsComputingSystems
 
                 for (int i = countWorkers; i > 0; i--)
                 {
+                    Host curHost = new Host(configWorkers[i].Ip, configWorkers[i].Port);
+
                     end_i += step * steps_i;
                     if (i == 1)
                         steps_i = steps;
                     else
                         steps_i = steps/countWorkers;
                     // TODO: отправка данных на воркера i (start_i, end_i, steps_i, step, function)
+                    ToWorkerData toWorkerData = new ToWorkerData(function, start_i, end_i, step);
+                    //ToDo Создать таск
+                    Task<String> task2 = new Task<String>(() => curHost.Start(toWorkerData.GetJson()));
+                    task2.Start();
 
-                    
+
                     start_i = end_i;
-                }
-                for (int i = countWorkers; i > 0; i--)
-                {
-                    // TODO: получение данных от воркера i (result_i и time_i)
-                    
-                    
                     //result += result_i;
                     //times.Add(time_i);
                 }
@@ -110,11 +104,14 @@ namespace LabsComputingSystems
         {
             textBox_logs_worker.Text = string.Empty;
             textBox_logs_worker.Text += "Начало работы, адрес: " + Network.GetLocalIPAddressString();
-            double result = 0, time = 0;
-            // TODO: стартануть воркера
+            // TODO: запихать в task
 
-            textBox_logs_worker.Text += "Результат: " + result.ToString();
-            textBox_logs_worker.Text += "Время выполнения: " + time.ToString();
+
+            Worker worker = new Worker(8888);
+            FromWorkerData tmp =  worker.Start();
+
+            textBox_logs_worker.Text += "Результат: " + tmp.Result.ToString();
+            textBox_logs_worker.Text += "Время выполнения: " + tmp.Time.ToString();
         }
 
         private void check_compleet()

@@ -28,10 +28,9 @@ namespace LabsComputingSystems.Service
             this.server = new TcpListener(localAddress, this.port);
         }
 
-        public void Start()
+        public FromWorkerData Start()
         {
-            // Запуск в работу
-            server.Start();
+            FromWorkerData tmp = null;
             // Запуск в работу
             server.Start();
             // Бесконечный цикл
@@ -56,7 +55,10 @@ namespace LabsComputingSystems.Service
                                 recieveMessage.AppendFormat("{0}", Encoding.UTF8.GetString(readBuffer, 0, numberOfBytesRead));
                             }
                             while (stream.DataAvailable);
-                            Byte[] responseData = Encoding.UTF8.GetBytes(WorkerFunction(recieveMessage.ToString()));
+                            tmp = WorkerFunction(recieveMessage.ToString());
+                            string json = tmp.GetJson();
+                            Byte[] responseData = Encoding.UTF8.GetBytes(json);
+
                             stream.Write(responseData, 0, responseData.Length);
                         }
                     }
@@ -73,9 +75,11 @@ namespace LabsComputingSystems.Service
                 }
             }
 
+            return tmp;
+
         }
 
-        private string WorkerFunction(string json)
+        private FromWorkerData WorkerFunction(string json)
         {
             // Реализация "Работника"
             Stopwatch sWatch = new Stopwatch();
@@ -93,8 +97,8 @@ namespace LabsComputingSystems.Service
             TimeSpan ts = sWatch.Elapsed;
             time = ts.TotalSeconds;
 
-            FromWorkerData fromWorkerData = new FromWorkerData(result, time);
-            return fromWorkerData.GetJson();
+            return new FromWorkerData(result, time);
+            //return fromWorkerData.GetJson();
         }
 
         public FromWorkerData WorkerFunction(ToWorkerData toWorkerData)

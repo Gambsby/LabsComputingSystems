@@ -29,6 +29,14 @@ namespace LabsComputingSystems.Models
             this.Long_step = long_step;
         }
 
+        public ToWorkerData(string fuction, double start, double end, double long_step)
+        {
+            this.Fuction = fuction;
+            this.Start = start;
+            this.End = end;
+            this.Long_step = long_step;
+        }
+
         public ToWorkerData(string fuction, double start, double end, int steps)
         {
             this.Fuction = fuction;
