@@ -15,6 +15,8 @@ namespace LabsComputingSystems
 {
     public partial class Form1 : Form
     {
+        private List<ConfigWorker> configWorkers { get; set; }
+
         public Form1()
         {
             InitializeComponent();
@@ -22,6 +24,7 @@ namespace LabsComputingSystems
             label_time.Text = string.Empty;
             label_res.Text = string.Empty;
             cB_mod.SelectedIndex = 0;
+            configWorkers = new List<ConfigWorker>();
         }
 
         //кнопка Славы ( TODO: удалить потом )
@@ -54,6 +57,12 @@ namespace LabsComputingSystems
             else if(cB_mod.SelectedIndex == 0)
             {
                 // работа главного узла в режиме "раскидал задачу другим"
+                List<Host> hostes = new List<Host>();
+                for (int i = 0; i<configWorkers.Count; i++)
+                {
+                    // TODO: добавить try catch и вывод сообщения если не удалось выполнить соединение
+                    hostes.Add(new Host(configWorkers[i].Ip, configWorkers[i].Port));
+                }
                 // TODO: создать список воркеров
 
                 int countWorkers = 3;
@@ -152,8 +161,8 @@ namespace LabsComputingSystems
 
         private void btn_add_workers_Click(object sender, EventArgs e)
         {
-            Form_adress dialog_redact_addres = new Form_adress();
-            // TODO: допилить диалоговое окно
+            Form_adress dialog_redact_addres = new Form_adress(this.configWorkers);
+            dialog_redact_addres.ShowDialog();
         }
     }
 }

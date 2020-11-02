@@ -86,6 +86,7 @@
     <Compile Include="Form_adress.Designer.cs">
       <DependentUpon>Form_adress.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\ConfigWorker.cs" />
     <Compile Include="Models\FromWorkerData.cs" />
     <Compile Include="Models\ToWorkerData.cs" />
     <Compile Include="Program.cs" />
