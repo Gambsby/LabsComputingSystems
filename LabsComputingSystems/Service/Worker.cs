@@ -66,10 +66,13 @@ namespace LabsComputingSystems.Service
                     {
                         stream.Close();
                         client.Close();
+                        server.Stop();
                     }
                 }
                 catch
                 {
+                    stream.Close();
+                    client.Close();
                     server.Stop();
                     break;
                 }

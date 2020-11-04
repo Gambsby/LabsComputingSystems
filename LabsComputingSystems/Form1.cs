@@ -57,7 +57,8 @@ namespace LabsComputingSystems
             else if(cB_mod.SelectedIndex == 0)
             {
                 // работа главного узла в режиме "раскидал задачу другим"
-                List<Task> tasks = new List<Task>();
+                List<Host> hosts = new List<Host>();
+                List<Task<String>> tasks = new List<Task<String>>();
 
                 int countWorkers = 3;
                 int steps_i = 0;
@@ -71,7 +72,7 @@ namespace LabsComputingSystems
 
                 for (int i = countWorkers; i > 0; i--)
                 {
-                    Host curHost = new Host(configWorkers[i].Ip, configWorkers[i].Port);
+                    Host curHost = new Host(configWorkers[i].Ip, configWorkers[i].Port);//Выдетает тут потому что индекс за пределами у configWorkers
 
                     end_i += step * steps_i;
                     if (i == 1)
@@ -80,14 +81,28 @@ namespace LabsComputingSystems
                         steps_i = steps/countWorkers;
                     // TODO: отправка данных на воркера i (start_i, end_i, steps_i, step, function)
                     ToWorkerData toWorkerData = new ToWorkerData(function, start_i, end_i, step);
-                    //ToDo Создать таск
-                    Task<String> task2 = new Task<String>(() => curHost.Start(toWorkerData.GetJson()));
-                    task2.Start();
-
+                    Task<String> hostTask = new Task<String>(() => curHost.Start(toWorkerData.GetJson()));
+                    hosts.Add(curHost);
+                    tasks.Add(hostTask);
+                    hostTask.Start();
 
                     start_i = end_i;
                     //result += result_i;
                     //times.Add(time_i);
+                }
+                List<bool> completed = new List<bool>(tasks.Count);
+                for (int i = 0; i < tasks.Count; i++)
+                {
+                    if (tasks[i].IsCompleted)
+                    {
+                        FromWorkerData recieveData = new FromWorkerData(tasks[i].Result);
+                        result += recieveData.Result;
+                        times.Add(recieveData.Time);
+                        completed[i] = true;
+                    }
+                    Application.DoEvents();
+                    if (completed.All(x => x == true)) break;
+                    if (i == tasks.Count - 1)  i = 0;
                 }
 
                 // Останавливаем время
@@ -108,6 +123,10 @@ namespace LabsComputingSystems
 
             Worker worker = new Worker(8888);
             Task<FromWorkerData> workerTask = new Task<FromWorkerData>(() => worker.Start());
+            while(!workerTask.IsCompleted)
+            {
+                Application.DoEvents();
+            }
             FromWorkerData res = workerTask.Result;
 
             textBox_logs_worker.Text += "Результат: " + res.Result.ToString();
