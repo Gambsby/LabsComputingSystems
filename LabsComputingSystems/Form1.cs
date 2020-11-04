@@ -60,7 +60,6 @@ namespace LabsComputingSystems
                 List<Host> hosts = new List<Host>();
                 List<Task<String>> tasks = new List<Task<String>>();
 
-                int countWorkers = 3;
                 int steps_i = 0;
                 double start_i = start, end_i = start;
                 double result = 0;
@@ -70,16 +69,15 @@ namespace LabsComputingSystems
                 Stopwatch sWatch = new Stopwatch();
                 sWatch.Start();
 
-                for (int i = countWorkers; i > 0; i--)
+                for (int i = configWorkers.Count; i > 0; i--)
                 {
-                    Host curHost = new Host(configWorkers[i].Ip, configWorkers[i].Port);//Выдетает тут потому что индекс за пределами у configWorkers
+                    Host curHost = new Host(configWorkers[i-1].Ip, configWorkers[i-1].Port);
 
                     end_i += step * steps_i;
                     if (i == 1)
                         steps_i = steps;
                     else
-                        steps_i = steps/countWorkers;
-                    // TODO: отправка данных на воркера i (start_i, end_i, steps_i, step, function)
+                        steps_i = steps/configWorkers.Count;
                     ToWorkerData toWorkerData = new ToWorkerData(function, start_i, end_i, step);
                     Task<String> hostTask = new Task<String>(() => curHost.Start(toWorkerData.GetJson()));
                     hosts.Add(curHost);
@@ -87,8 +85,6 @@ namespace LabsComputingSystems
                     hostTask.Start();
 
                     start_i = end_i;
-                    //result += result_i;
-                    //times.Add(time_i);
                 }
                 List<bool> completed = new List<bool>(tasks.Count);
                 for (int i = 0; i < tasks.Count; i++)
