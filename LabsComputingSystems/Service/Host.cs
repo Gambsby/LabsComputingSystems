@@ -22,12 +22,13 @@ namespace LabsComputingSystems.Service
             // Порт куда отправлять
             this.workerPort = workerPort;
             // Инициализация
-            client = new TcpClient(this.workerAddress, this.workerPort);
+            client = new TcpClient();
         }
         
         public string Start(string message)
         {
             Byte[] data = Encoding.UTF8.GetBytes(message);
+            client.Connect(this.workerAddress, this.workerPort);
             stream = client.GetStream();
             try
             {

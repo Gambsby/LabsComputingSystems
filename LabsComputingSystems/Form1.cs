@@ -30,7 +30,7 @@ namespace LabsComputingSystems
         //кнопка Славы ( TODO: удалить потом )
         private void test_btn_Click(object sender, EventArgs e)
         {
-            Host host = new Host("192.168.1.238", 8889);
+            Host host = new Host("192.168.1.4", 8888);
             string res = host.Start("This");
             FromWorkerData fromWorkerData = new FromWorkerData(25, 5);
             string json = fromWorkerData.GetJson();
@@ -78,6 +78,7 @@ namespace LabsComputingSystems
                         steps_i = steps;
                     else
                         steps_i = steps/configWorkers.Count;
+
                     ToWorkerData toWorkerData = new ToWorkerData(function, start_i, end_i, step);
                     Task<String> hostTask = new Task<String>(() => curHost.Start(toWorkerData.GetJson()));
                     hosts.Add(curHost);
@@ -86,7 +87,7 @@ namespace LabsComputingSystems
 
                     start_i = end_i;
                 }
-                List<bool> completed = new List<bool>(tasks.Count);
+                bool[] completed = new bool[tasks.Count];
                 for (int i = 0; i < tasks.Count; i++)
                 {
                     if (tasks[i].IsCompleted)
@@ -98,7 +99,7 @@ namespace LabsComputingSystems
                     }
                     Application.DoEvents();
                     if (completed.All(x => x == true)) break;
-                    if (i == tasks.Count - 1)  i = 0;
+                    if (i == tasks.Count - 1)  i = -1;
                 }
 
                 // Останавливаем время
@@ -124,6 +125,7 @@ namespace LabsComputingSystems
                 Application.DoEvents();
             }
             FromWorkerData res = workerTask.Result;
+            //FromWorkerData res = worker.Start();
 
             textBox_logs_worker.Text += "Результат: " + res.Result.ToString();
             textBox_logs_worker.Text += "Время выполнения: " + res.Time.ToString();
