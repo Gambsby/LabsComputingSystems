@@ -106,12 +106,12 @@ namespace LabsComputingSystems
             textBox_logs_worker.Text += "Начало работы, адрес: " + Network.GetLocalIPAddressString();
             // TODO: запихать в task
 
-
             Worker worker = new Worker(8888);
-            FromWorkerData tmp =  worker.Start();
+            Task<FromWorkerData> workerTask = new Task<FromWorkerData>(() => worker.Start());
+            FromWorkerData res = workerTask.Result;
 
-            textBox_logs_worker.Text += "Результат: " + tmp.Result.ToString();
-            textBox_logs_worker.Text += "Время выполнения: " + tmp.Time.ToString();
+            textBox_logs_worker.Text += "Результат: " + res.Result.ToString();
+            textBox_logs_worker.Text += "Время выполнения: " + res.Time.ToString();
         }
 
         private void check_compleet()
