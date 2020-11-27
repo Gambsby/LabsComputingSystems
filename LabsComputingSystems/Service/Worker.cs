@@ -138,7 +138,7 @@ namespace LabsComputingSystems.Service
                 else
                     result += Fuction(Data.Fuction, i * Data.Long_step + Data.Start);
             }
-            return result;
+            return result*Data.Long_step;
         }
 
         private double Fuction(string fuction, double x)

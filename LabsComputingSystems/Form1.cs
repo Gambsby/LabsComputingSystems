@@ -43,7 +43,7 @@ namespace LabsComputingSystems
             double start = double.Parse(txtBox_start.Text);
             double end = double.Parse(txtBox_end.Text);
             int steps = int.Parse(txtBox_steps.Text);
-            double step = (start - end) / steps;
+            double step = (end - start) / steps;
             if (cB_mod.SelectedIndex == 1)
             {
                 // работа главного узла в режиме "один"
@@ -72,13 +72,13 @@ namespace LabsComputingSystems
                 {
                     Host curHost = new Host(configWorkers[i-1].Ip, configWorkers[i-1].Port);
 
-                    end_i += step * steps_i;
                     if (i == 1)
                         steps_i = steps - (steps / configWorkers.Count * (configWorkers.Count-1));
                     else
                         steps_i = steps/configWorkers.Count;
+                    end_i += step * steps_i;
 
-                    ToWorkerData toWorkerData = new ToWorkerData(function, start_i, end_i, step);
+                    ToWorkerData toWorkerData = new ToWorkerData(function, start_i, end_i, steps_i, step);
                     Task<String> hostTask = new Task<String>(() => curHost.Start(toWorkerData.GetJson()));
                     //FromWorkerData recieveData = new FromWorkerData(curHost.Start(toWorkerData.GetJson()));
                     hosts.Add(curHost);
@@ -91,7 +91,7 @@ namespace LabsComputingSystems
 
                 for (int i = 0; i < tasks.Count; i++)
                 {
-                    if (tasks[i].IsCompleted)
+                    if (tasks[i].IsCompleted && !completed[i])
                     {
                         FromWorkerData recieveData = new FromWorkerData(tasks[i].Result);
                         result += recieveData.Result;
@@ -115,21 +115,23 @@ namespace LabsComputingSystems
 
         private void btn_start_worker_Click(object sender, EventArgs e)
         {
-            textBox_logs_worker.Text = string.Empty;
-            textBox_logs_worker.Text += "Начало работы, адрес: " + Network.GetLocalIPAddressString();
-            // TODO: запихать в task
-
             Worker worker = new Worker(8888);
-            Task<FromWorkerData> workerTask = new Task<FromWorkerData>(() => worker.Start());
-            while(!workerTask.IsCompleted)
+            textBox_logs_worker.Text = string.Empty;
+            while(true)
             {
-                Application.DoEvents();
-            }
-            FromWorkerData res = workerTask.Result;
-            //FromWorkerData res = worker.Start();
+                textBox_logs_worker.Text += "Начало работы, адрес: " + Network.GetLocalIPAddressString() + Environment.NewLine;
+                Task<FromWorkerData> workerTask = new Task<FromWorkerData>(() => worker.Start());
+                workerTask.Start();
+                while (!workerTask.IsCompleted)
+                {
+                    Application.DoEvents();
+                }
+                FromWorkerData res = workerTask.Result;
+                //FromWorkerData res = worker.Start();
 
-            textBox_logs_worker.Text += "Результат: " + res.Result.ToString();
-            textBox_logs_worker.Text += "Время выполнения: " + res.Time.ToString();
+                textBox_logs_worker.Text += "Результат: " + res.Result.ToString() + Environment.NewLine;
+                textBox_logs_worker.Text += "Время выполнения: " + res.Time.ToString() + Environment.NewLine;
+            }
         }
 
         private void check_compleet()
