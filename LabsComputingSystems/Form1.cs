@@ -57,7 +57,7 @@ namespace LabsComputingSystems
             {
                 // работа главного узла в режиме "раскидал задачу другим"
                 List<Host> hosts = new List<Host>();
-                //List<Task<String>> tasks = new List<Task<String>>();
+                List<Task<String>> tasks = new List<Task<String>>();
 
                 int steps_i = 0;
                 double start_i = start, end_i = start;
@@ -79,17 +79,17 @@ namespace LabsComputingSystems
                         steps_i = steps/configWorkers.Count;
 
                     ToWorkerData toWorkerData = new ToWorkerData(function, start_i, end_i, step);
-                    //Task<String> hostTask = new Task<String>(() => curHost.Start(toWorkerData.GetJson()));
-                    FromWorkerData recieveData = new FromWorkerData(curHost.Start(toWorkerData.GetJson()));
-                    //hosts.Add(curHost);
-                    //tasks.Add(hostTask);
-                    //hostTask.Start();
+                    Task<String> hostTask = new Task<String>(() => curHost.Start(toWorkerData.GetJson()));
+                    //FromWorkerData recieveData = new FromWorkerData(curHost.Start(toWorkerData.GetJson()));
+                    hosts.Add(curHost);
+                    tasks.Add(hostTask);
+                    hostTask.Start();
                     start_i = end_i;
                 }
-                //bool[] completed = new bool[tasks.Count];
+                bool[] completed = new bool[tasks.Count];
 
 
-                /*for (int i = 0; i < tasks.Count; i++)
+                for (int i = 0; i < tasks.Count; i++)
                 {
                     if (tasks[i].IsCompleted)
                     {
@@ -101,7 +101,7 @@ namespace LabsComputingSystems
                     Application.DoEvents();
                     if (completed.All(x => x == true)) break;
                     if (i == tasks.Count - 1)  i = -1;
-                }*/
+                }
 
                 // Останавливаем время
                 sWatch.Stop();
