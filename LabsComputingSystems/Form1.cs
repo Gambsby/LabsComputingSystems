@@ -30,11 +30,10 @@ namespace LabsComputingSystems
         //кнопка Славы ( TODO: удалить потом )
         private void test_btn_Click(object sender, EventArgs e)
         {
-            Host host = new Host("192.168.1.4", 8888);
-            string res = host.Start("This");
-            FromWorkerData fromWorkerData = new FromWorkerData(25, 5);
-            string json = fromWorkerData.GetJson();
-            FromWorkerData testObject = new FromWorkerData(json);
+            ToWorkerData toData = new ToWorkerData("huinya", 0, 1, 1000);
+            Host host = new Host("192.168.43.2", 8888);
+            string res = host.Start(toData.GetJson());
+            FromWorkerData fromWorkerData = new FromWorkerData(res);
         }
 
         private void btn_start_mainHost_Click(object sender, EventArgs e)
@@ -58,7 +57,7 @@ namespace LabsComputingSystems
             {
                 // работа главного узла в режиме "раскидал задачу другим"
                 List<Host> hosts = new List<Host>();
-                List<Task<String>> tasks = new List<Task<String>>();
+                //List<Task<String>> tasks = new List<Task<String>>();
 
                 int steps_i = 0;
                 double start_i = start, end_i = start;
@@ -75,20 +74,22 @@ namespace LabsComputingSystems
 
                     end_i += step * steps_i;
                     if (i == 1)
-                        steps_i = steps;
+                        steps_i = steps - (steps / configWorkers.Count * (configWorkers.Count-1));
                     else
                         steps_i = steps/configWorkers.Count;
 
                     ToWorkerData toWorkerData = new ToWorkerData(function, start_i, end_i, step);
-                    Task<String> hostTask = new Task<String>(() => curHost.Start(toWorkerData.GetJson()));
-                    hosts.Add(curHost);
-                    tasks.Add(hostTask);
-                    hostTask.Start();
-
+                    //Task<String> hostTask = new Task<String>(() => curHost.Start(toWorkerData.GetJson()));
+                    FromWorkerData recieveData = new FromWorkerData(curHost.Start(toWorkerData.GetJson()));
+                    //hosts.Add(curHost);
+                    //tasks.Add(hostTask);
+                    //hostTask.Start();
                     start_i = end_i;
                 }
-                bool[] completed = new bool[tasks.Count];
-                for (int i = 0; i < tasks.Count; i++)
+                //bool[] completed = new bool[tasks.Count];
+
+
+                /*for (int i = 0; i < tasks.Count; i++)
                 {
                     if (tasks[i].IsCompleted)
                     {
@@ -100,7 +101,7 @@ namespace LabsComputingSystems
                     Application.DoEvents();
                     if (completed.All(x => x == true)) break;
                     if (i == tasks.Count - 1)  i = -1;
-                }
+                }*/
 
                 // Останавливаем время
                 sWatch.Stop();
