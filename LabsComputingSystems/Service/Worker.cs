@@ -141,10 +141,18 @@ namespace LabsComputingSystems.Service
             return result*Data.Long_step;
         }
 
-        private double Fuction(string fuction, double x)
+        private double Fuction(string function, double x)
         {
             // TODO: fuction(x) (нужно выполнить string функции)
-
+            switch (function)
+            {
+                case "pow(x, 4)+pow(x, 3)+pow(x, 2)":
+                    return Math.Pow(x, 4) + Math.Pow(x, 3) + Math.Pow(x, 2);
+                case "ln(pow(x, 4)+pow(x, 3)+pow(x, 2))":
+                    return Math.Log(Math.Pow(x, 4) + Math.Pow(x, 3) + Math.Pow(x, 2));
+                case "sin(ln(pow(x, 4)+pow(x, 3)+pow(x, 2)))":
+                    return Math.Sin(Math.Log(Math.Pow(x, 4) + Math.Pow(x, 3) + Math.Pow(x, 2)));
+            }
             return Math.Pow(Math.Log(x), 4); //пример для тестов
         }
     }

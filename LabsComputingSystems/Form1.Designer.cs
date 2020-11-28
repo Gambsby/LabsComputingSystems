@@ -42,7 +42,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.txtBox_start = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.txtBox_function = new System.Windows.Forms.TextBox();
             this.cB_mod = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -57,6 +56,7 @@
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.textBox_logs_worker = new System.Windows.Forms.TextBox();
             this.label_ip = new System.Windows.Forms.Label();
+            this.txtBox_function = new System.Windows.Forms.ComboBox();
             this.tabControl.SuspendLayout();
             this.tabMainHost.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -140,10 +140,10 @@
             // 
             // groupBox_Function
             // 
+            this.groupBox_Function.Controls.Add(this.txtBox_function);
             this.groupBox_Function.Controls.Add(this.txtBox_steps);
             this.groupBox_Function.Controls.Add(this.label3);
             this.groupBox_Function.Controls.Add(this.groupBox1);
-            this.groupBox_Function.Controls.Add(this.txtBox_function);
             this.groupBox_Function.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.groupBox_Function.Location = new System.Drawing.Point(12, 21);
             this.groupBox_Function.Name = "groupBox_Function";
@@ -218,16 +218,6 @@
             this.label1.Size = new System.Drawing.Size(28, 16);
             this.label1.TabIndex = 0;
             this.label1.Text = "От:";
-            // 
-            // txtBox_function
-            // 
-            this.txtBox_function.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.txtBox_function.Location = new System.Drawing.Point(6, 21);
-            this.txtBox_function.Name = "txtBox_function";
-            this.txtBox_function.Size = new System.Drawing.Size(314, 26);
-            this.txtBox_function.TabIndex = 0;
-            this.txtBox_function.Text = " ";
-            this.txtBox_function.TextChanged += new System.EventHandler(this.txtBox_function_TextChanged);
             // 
             // cB_mod
             // 
@@ -369,6 +359,14 @@
             this.label_ip.Size = new System.Drawing.Size(0, 13);
             this.label_ip.TabIndex = 0;
             // 
+            // txtBox_function
+            // 
+            this.txtBox_function.FormattingEnabled = true;
+            this.txtBox_function.Location = new System.Drawing.Point(6, 23);
+            this.txtBox_function.Name = "txtBox_function";
+            this.txtBox_function.Size = new System.Drawing.Size(314, 24);
+            this.txtBox_function.TabIndex = 7;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -415,7 +413,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtBox_start;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txtBox_function;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button btn_start_mainHost;
@@ -429,6 +426,7 @@
         private System.Windows.Forms.Label label_time_all;
         private System.Windows.Forms.Label label_time_all_text;
         private System.Windows.Forms.Button btn_add_workers;
+        private System.Windows.Forms.ComboBox txtBox_function;
     }
 }
 

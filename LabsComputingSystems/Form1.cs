@@ -25,6 +25,13 @@ namespace LabsComputingSystems
             label_res.Text = string.Empty;
             cB_mod.SelectedIndex = 0;
             configWorkers = new List<ConfigWorker>();
+
+            string[] functions = new string[3];
+            functions[0] = "pow(x, 4)+pow(x, 3)+pow(x, 2)";
+            functions[1] = "ln(pow(x, 4)+pow(x, 3)+pow(x, 2))";
+            functions[2] = "sin(ln(pow(x, 4)+pow(x, 3)+pow(x, 2)))";
+
+            txtBox_function.Items.AddRange(functions);
         }
 
         //кнопка Славы ( TODO: удалить потом )
