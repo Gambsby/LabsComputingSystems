@@ -130,6 +130,7 @@ namespace LabsComputingSystems
             {
                 textBox_logs_worker.Text += "Начало работы:\tAдрес: " + Network.GetLocalIPAddressString() + "\tПорт: 8888" + Environment.NewLine;
                 Task<FromWorkerData> workerTask = new Task<FromWorkerData>(() => worker.Start());
+                btn_start_worker.Enabled = false;
                 workerTask.Start();
                 while (!workerTask.IsCompleted)
                 {
@@ -141,6 +142,7 @@ namespace LabsComputingSystems
                 textBox_logs_worker.Text += "Результат: " + res.Result.ToString() + Environment.NewLine;
                 textBox_logs_worker.Text += "Время выполнения: " + res.Time.ToString() + "с" + Environment.NewLine;
             }
+            //btn_start_worker.Enabled = true;
         }
 
         private void check_compleet()
@@ -178,12 +180,15 @@ namespace LabsComputingSystems
             {
                 label_time_all_text.Visible = true;
                 btn_add_workers.Visible = true;
+                label_time_all.Visible = true;
+                label_time_all.Text = null;
                 check_compleet();
             }
             else
             {
                 btn_add_workers.Visible = false;
                 label_time_all_text.Visible = false;
+                label_time_all.Visible = false;
                 check_compleet();
             }
         }
