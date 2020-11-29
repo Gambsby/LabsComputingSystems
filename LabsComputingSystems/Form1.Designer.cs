@@ -28,13 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.test_btn = new System.Windows.Forms.Button();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabMainHost = new System.Windows.Forms.TabPage();
             this.btn_start_mainHost = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.btn_add_workers = new System.Windows.Forms.Button();
             this.groupBox_Function = new System.Windows.Forms.GroupBox();
+            this.txtBox_function = new System.Windows.Forms.ComboBox();
             this.txtBox_steps = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -56,7 +56,6 @@
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.textBox_logs_worker = new System.Windows.Forms.TextBox();
             this.label_ip = new System.Windows.Forms.Label();
-            this.txtBox_function = new System.Windows.Forms.ComboBox();
             this.tabControl.SuspendLayout();
             this.tabMainHost.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -66,16 +65,6 @@
             this.tabWorkerHost.SuspendLayout();
             this.groupBox7.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // test_btn
-            // 
-            this.test_btn.Location = new System.Drawing.Point(610, 339);
-            this.test_btn.Name = "test_btn";
-            this.test_btn.Size = new System.Drawing.Size(114, 23);
-            this.test_btn.TabIndex = 0;
-            this.test_btn.Text = "Кнопка Славы";
-            this.test_btn.UseVisualStyleBackColor = true;
-            this.test_btn.Click += new System.EventHandler(this.test_btn_Click);
             // 
             // tabControl
             // 
@@ -151,6 +140,14 @@
             this.groupBox_Function.TabIndex = 0;
             this.groupBox_Function.TabStop = false;
             this.groupBox_Function.Text = "Функция";
+            // 
+            // txtBox_function
+            // 
+            this.txtBox_function.FormattingEnabled = true;
+            this.txtBox_function.Location = new System.Drawing.Point(6, 23);
+            this.txtBox_function.Name = "txtBox_function";
+            this.txtBox_function.Size = new System.Drawing.Size(314, 24);
+            this.txtBox_function.TabIndex = 7;
             // 
             // txtBox_steps
             // 
@@ -359,25 +356,16 @@
             this.label_ip.Size = new System.Drawing.Size(0, 13);
             this.label_ip.TabIndex = 0;
             // 
-            // txtBox_function
-            // 
-            this.txtBox_function.FormattingEnabled = true;
-            this.txtBox_function.Location = new System.Drawing.Point(6, 23);
-            this.txtBox_function.Name = "txtBox_function";
-            this.txtBox_function.Size = new System.Drawing.Size(314, 24);
-            this.txtBox_function.TabIndex = 7;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(729, 367);
+            this.ClientSize = new System.Drawing.Size(729, 337);
             this.Controls.Add(this.label_ip);
             this.Controls.Add(this.tabControl);
-            this.Controls.Add(this.test_btn);
             this.Name = "Form1";
-            this.Text = "Вычислительные системы: вычислительный кластер.           Довыденко, Хнюнин, Тара" +
-    "канов";
+            this.Text = "Вычислительные системы: вычислительный кластер.                                До" +
+    "выденко, Хнюнин. АСМ-20";
             this.tabControl.ResumeLayout(false);
             this.tabMainHost.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
@@ -397,8 +385,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Button test_btn;
         private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.TabPage tabMainHost;
         private System.Windows.Forms.TabPage tabWorkerHost;

@@ -26,22 +26,24 @@ namespace LabsComputingSystems
             cB_mod.SelectedIndex = 0;
             configWorkers = new List<ConfigWorker>();
 
-            string[] functions = new string[3];
-            functions[0] = "pow(x, 4)+pow(x, 3)+pow(x, 2)";
-            functions[1] = "ln(pow(x, 4)+pow(x, 3)+pow(x, 2))";
-            functions[2] = "sin(ln(pow(x, 4)+pow(x, 3)+pow(x, 2)))";
+            string[] functions = new string[4];
+            functions[0] = "x^4 + x^3 + x^2";
+            functions[1] = "ln(x^4 + x^3 + x^2)";
+            functions[2] = "sin(ln((x^4 + x^3) / x^2))";
+            functions[3] = "cos(ln((x^4 + x^3) / x^2))";
 
             txtBox_function.Items.AddRange(functions);
         }
 
-        //кнопка Славы ( TODO: удалить потом )
+        /*кнопка Test
         private void test_btn_Click(object sender, EventArgs e)
         {
-            ToWorkerData toData = new ToWorkerData("huinya", 0, 1, 1000);
+            ToWorkerData toData = new ToWorkerData("test", 0, 1, 1000);
             Host host = new Host("192.168.43.2", 8888);
             string res = host.Start(toData.GetJson());
             FromWorkerData fromWorkerData = new FromWorkerData(res);
         }
+        */
 
         private void btn_start_mainHost_Click(object sender, EventArgs e)
         {
@@ -58,7 +60,7 @@ namespace LabsComputingSystems
                 Worker worker = new Worker(0);
                 FromWorkerData fromData = worker.WorkerFunction(toData);
                 label_res.Text = fromData.Result.ToString();
-                label_time.Text= fromData.Time.ToString();
+                label_time.Text= fromData.Time.ToString() + "с";
             }
             else if(cB_mod.SelectedIndex == 0)
             {
@@ -126,7 +128,7 @@ namespace LabsComputingSystems
             textBox_logs_worker.Text = string.Empty;
             while(true)
             {
-                textBox_logs_worker.Text += "Начало работы, адрес: " + Network.GetLocalIPAddressString() + Environment.NewLine;
+                textBox_logs_worker.Text += "Начало работы:\tAдрес: " + Network.GetLocalIPAddressString() + "\tПорт: 8888" + Environment.NewLine;
                 Task<FromWorkerData> workerTask = new Task<FromWorkerData>(() => worker.Start());
                 workerTask.Start();
                 while (!workerTask.IsCompleted)
@@ -137,14 +139,15 @@ namespace LabsComputingSystems
                 //FromWorkerData res = worker.Start();
 
                 textBox_logs_worker.Text += "Результат: " + res.Result.ToString() + Environment.NewLine;
-                textBox_logs_worker.Text += "Время выполнения: " + res.Time.ToString() + Environment.NewLine;
+                textBox_logs_worker.Text += "Время выполнения: " + res.Time.ToString() + "с" + Environment.NewLine;
             }
         }
 
         private void check_compleet()
         {
             if ((txtBox_function.Text.Length > 0) && (txtBox_start.Text.Length > 0) && (txtBox_end.Text.Length > 0) && (txtBox_steps.Text.Length > 0))
-                btn_start_mainHost.Enabled = true;
+                if ((configWorkers.Count > 0 && cB_mod.SelectedIndex == 0) || cB_mod.SelectedIndex == 1)
+                    btn_start_mainHost.Enabled = true;
             else
                 btn_start_mainHost.Enabled = false;
         }
@@ -175,11 +178,13 @@ namespace LabsComputingSystems
             {
                 label_time_all_text.Visible = true;
                 btn_add_workers.Visible = true;
+                check_compleet();
             }
             else
             {
                 btn_add_workers.Visible = false;
                 label_time_all_text.Visible = false;
+                check_compleet();
             }
         }
 
@@ -187,6 +192,7 @@ namespace LabsComputingSystems
         {
             Form_adress dialog_redact_addres = new Form_adress(this.configWorkers);
             dialog_redact_addres.ShowDialog();
+            check_compleet();
         }
     }
 }

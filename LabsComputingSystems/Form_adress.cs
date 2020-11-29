@@ -48,8 +48,10 @@ namespace LabsComputingSystems
         {
             for (int i = 0; i < dataGridView1.Rows.Count-1; i++)
             {
-                ConfigWorker new_config = new ConfigWorker(dataGridView1[0, i].Value.ToString(),
-                                                             int.Parse(dataGridView1[1, i].Value.ToString()));
+                int port = 8888;
+                if (dataGridView1[1, i].Value != null)
+                    port = int.Parse(dataGridView1[1, i].Value.ToString());
+                ConfigWorker new_config = new ConfigWorker(dataGridView1[0, i].Value.ToString(), port);
                 workersConfig.Add(new_config);
             }
             this.Close();

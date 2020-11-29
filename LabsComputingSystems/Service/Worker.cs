@@ -134,26 +134,42 @@ namespace LabsComputingSystems.Service
             for (int i = 0; i < Data.Steps; i++)
             {
                 if (i == 0 || i == Data.Steps - 1)
-                    result += Fuction(Data.Fuction, i * Data.Long_step + Data.Start)/2;
+                    result += Fuction(Data.Fuction, i * Data.Long_step + Data.Start) / 2;
                 else
                     result += Fuction(Data.Fuction, i * Data.Long_step + Data.Start);
             }
-            return result*Data.Long_step;
+            return result * Data.Long_step;
         }
 
         private double Fuction(string function, double x)
         {
-            // TODO: fuction(x) (нужно выполнить string функции)
             switch (function)
             {
-                case "pow(x, 4)+pow(x, 3)+pow(x, 2)":
+                case "x^4 + x^3 + x^2":
                     return Math.Pow(x, 4) + Math.Pow(x, 3) + Math.Pow(x, 2);
-                case "ln(pow(x, 4)+pow(x, 3)+pow(x, 2))":
+                case "ln(x^4 + x^3 + x^2)":
                     return Math.Log(Math.Pow(x, 4) + Math.Pow(x, 3) + Math.Pow(x, 2));
-                case "sin(ln(pow(x, 4)+pow(x, 3)+pow(x, 2)))":
-                    return Math.Sin(Math.Log(Math.Pow(x, 4) + Math.Pow(x, 3) + Math.Pow(x, 2)));
+                case "sin(ln((x^4 + x^3) / x^2))":
+                    return Math.Sin(Math.Log((Math.Pow(x, 4) + Math.Pow(x, 3)) / Math.Pow(x, 2)));
+                case "cos(ln((x^4 + x^3) / x^2))":
+                    return Math.Cos(Math.Log((Math.Pow(x, 4) + Math.Pow(x, 3)) / Math.Pow(x, 2)));
             }
             return Math.Pow(Math.Log(x), 4); //пример для тестов
+        }
+
+        private double Pow(double x, int y)
+        {
+            double res = x;
+            if (y == 0) return 1;
+            for (int i = 1; i < Math.Abs(y); i++)
+            {
+                res *= x;
+            }
+            if (y < 0)
+            {
+                res = 1 / res;
+            }
+            return res;
         }
     }
 }
