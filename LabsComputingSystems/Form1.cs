@@ -17,6 +17,8 @@ namespace LabsComputingSystems
     {
         private List<ConfigWorker> configWorkers { get; set; }
 
+        double last_time_one = 0;
+
         public Form1()
         {
             InitializeComponent();
@@ -33,6 +35,9 @@ namespace LabsComputingSystems
             functions[3] = "cos(ln((x^4 + x^3) / x^2))";
 
             txtBox_function.Items.AddRange(functions);
+
+            label_def.Visible = false;
+            label_def_text.Visible = false;
         }
 
         /*кнопка Test
@@ -61,6 +66,8 @@ namespace LabsComputingSystems
                 FromWorkerData fromData = worker.WorkerFunction(toData);
                 label_res.Text = fromData.Result.ToString();
                 label_time.Text= fromData.Time.ToString() + "с";
+
+                last_time_one = fromData.Time;
             }
             else if(cB_mod.SelectedIndex == 0)
             {
@@ -118,7 +125,19 @@ namespace LabsComputingSystems
                 
                 label_time_all.Text = ts.TotalSeconds.ToString();
                 label_res.Text = result.ToString();
-                label_time.Text = times.Min().ToString();
+                label_time.Text = times.Max().ToString();
+
+                if (last_time_one != 0)
+                {
+                    label_def.Text = (last_time_one - times.Max()).ToString() + "c";
+                    label_def.Visible = true;
+                    label_def_text.Visible = true;
+                }
+                else
+                {
+                    label_def.Visible = false;
+                    label_def_text.Visible = false;
+                }
             }
         }
 

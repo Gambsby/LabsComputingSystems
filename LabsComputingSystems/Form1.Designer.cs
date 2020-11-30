@@ -56,6 +56,8 @@
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.textBox_logs_worker = new System.Windows.Forms.TextBox();
             this.label_ip = new System.Windows.Forms.Label();
+            this.label_def = new System.Windows.Forms.Label();
+            this.label_def_text = new System.Windows.Forms.Label();
             this.tabControl.SuspendLayout();
             this.tabMainHost.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -241,6 +243,8 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.label_def);
+            this.groupBox2.Controls.Add(this.label_def_text);
             this.groupBox2.Controls.Add(this.label_time_all);
             this.groupBox2.Controls.Add(this.label_time_all_text);
             this.groupBox2.Controls.Add(this.label_res);
@@ -356,6 +360,23 @@
             this.label_ip.Size = new System.Drawing.Size(0, 13);
             this.label_ip.TabIndex = 0;
             // 
+            // label_def
+            // 
+            this.label_def.AutoSize = true;
+            this.label_def.Location = new System.Drawing.Point(128, 212);
+            this.label_def.Name = "label_def";
+            this.label_def.Size = new System.Drawing.Size(0, 16);
+            this.label_def.TabIndex = 14;
+            // 
+            // label_def_text
+            // 
+            this.label_def_text.AutoSize = true;
+            this.label_def_text.Location = new System.Drawing.Point(16, 187);
+            this.label_def_text.Name = "label_def_text";
+            this.label_def_text.Size = new System.Drawing.Size(313, 16);
+            this.label_def_text.TabIndex = 13;
+            this.label_def_text.Text = "Разница во времени между режимами работы:";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -413,6 +434,8 @@
         private System.Windows.Forms.Label label_time_all_text;
         private System.Windows.Forms.Button btn_add_workers;
         private System.Windows.Forms.ComboBox txtBox_function;
+        private System.Windows.Forms.Label label_def;
+        private System.Windows.Forms.Label label_def_text;
     }
 }
 
